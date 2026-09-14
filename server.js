@@ -11,6 +11,7 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
+// اختبار حالة السيرفر
 app.get("/", (req, res) => {
   res.json({
     status: "SAWWIQ AI يعمل",
@@ -18,18 +19,20 @@ app.get("/", (req, res) => {
   });
 });
 
+// الذكاء الاصطناعي
 app.post("/api/ai", async (req, res) => {
   try {
     const { message } = req.body;
 
-    if (!message) {
+    if (!message || !message.trim()) {
       return res.status(400).json({
+        success: false,
         error: "اكتب الرسالة أولا"
       });
     }
 
     const response = await client.responses.create({
-      model: "gpt-5.6-mini",
+      model: "gpt-5.6-luna",
       input: message
     });
 
@@ -39,7 +42,7 @@ app.post("/api/ai", async (req, res) => {
     });
 
   } catch (error) {
-    console.error(error);
+    console.error("AI ERROR:", error);
 
     res.status(500).json({
       success: false,
