@@ -7,78 +7,96 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const apiKey = process.env.OPENAI_API_KEY;
+const PORT = process.env.PORT || 3000;
+const API_KEY = process.env.OPENAI_API_KEY;
 
-const client = apiKey
+const client = API_KEY
   ? new OpenAI({
-      apiKey: apiKey
+      apiKey: API_KEY
     })
   : null;
 
-// فحص حالة السيرفر
+// الصفحة الرئيسية لفحص السيرفر
 app.get("/", (req, res) => {
   res.json({
     status: "SAWWIQ AI يعمل",
     backend: "جاهز",
-    openai: apiKey ? "مفتاح موجود" : "مفتاح غير موجود"
+    openai: API_KEY ? "مفتاح موجود" : "مفتاح غير موجود"
   });
 });
 
-// الذكاء الاصطناعي
+// مساعد سَوِّق AI
 app.post("/api/ai", async (req, res) => {
   try {
-    const { message } = req.body;
+    const message = req.body?.message;
 
     if (!message || typeof message !== "string" || !message.trim()) {
       return res.status(400).json({
         success: false,
-        error: "اكتب الرسالة أولا"
+        error: "لم يتم إرسال سؤال"
       });
     }
 
     if (!client) {
       return res.status(500).json({
         success: false,
-        error: "مفتاح الذكاء الاصطناعي غير موجود في الخادم"
+        error: "مفتاح الذكاء الاصطناعي غير موجود في Render"
       });
     }
 
     const response = await client.responses.create({
       model: "gpt-5.6-luna",
+      instructions: `
+أنت مساعد سَوِّق SAWWIQ AI.
+
+أنت خبير في:
+- التسويق
+- الإعلانات
+- كتابة الإعلانات
+- تحليل المنتجات
+- تحليل الجمهور
+- أفكار الحملات
+- السوشيال ميديا
+- تحسين المبيعات
+- اقتراح الميزانيات
+- إنشاء أفكار محتوى إعلاني
+
+تحدث باللغة العربية الواضحة والبسيطة.
+كن عمليًا ومباشرًا.
+إذا أعطاك العميل منتجًا أو نشاطًا تجاريًا، حلله واقترح له خطة تسويقية مفيدة.
+لا تقل إنك لا تستطيع المساعدة إلا إذا كان الطلب خارج نطاق التسويق بشكل واضح.
+      `,
       input: message.trim()
     });
 
-    const reply = response.output_text || "";
+    const reply = response.output_text?.trim();
 
     if (!reply) {
       return res.status(500).json({
         success: false,
-        error: "تم الاتصال بالذكاء الاصطناعي ولكن لم يصل رد"
+        error: "الذكاء الاصطناعي لم يرجع نصًا"
       });
     }
 
-    res.json({
+    return res.json({
       success: true,
       reply: reply
     });
 
   } catch (error) {
     console.error("========== SAWWIQ AI ERROR ==========");
-    console.error("Message:", error?.message);
-    console.error("Status:", error?.status);
-    console.error("Code:", error?.code);
-    console.error("Type:", error?.type);
+    console.error("Message:", error?.message || "غير معروف");
+    console.error("Status:", error?.status || "غير معروف");
+    console.error("Code:", error?.code || "غير معروف");
+    console.error("Type:", error?.type || "غير معروف");
     console.error("=====================================");
 
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
-      error: "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي",
-      details: error?.message || "خطأ غير معروف"
+      error: "تعذر تشغيل مساعد سَوِّق حاليًا"
     });
   }
 });
-
-const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   console.log(`SAWWIQ AI running on port ${PORT}`);
