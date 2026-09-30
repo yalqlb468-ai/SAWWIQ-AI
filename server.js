@@ -4,8 +4,81 @@ import OpenAI from "openai";
 
 const app = express();
 
-app.use(cors());
-app.use(express.json({ limit: "1mb" }));
+/* =========================
+   الحماية: إعدادات عامة
+========================= */
+
+// مهم على Render عشان نعرف IP الزائر الحقيقي
+app.set("trust proxy", 1);
+
+// المواقع المسموح لها تكلم الـ API من المتصفح
+const ALLOWED_ORIGINS = [
+  "https://jovial-meerkat-97f035.netlify.app"
+  // لو ربطت دومين خاص بالموقع، ضيفه هنا بنفس الشكل
+];
+
+app.use(
+  cors({
+    origin(origin, cb) {
+      if (!origin || ALLOWED_ORIGINS.includes(origin)) {
+        return cb(null, true);
+      }
+      return cb(null, false);
+    }
+  })
+);
+
+// حد أقصى صغير لحجم الطلب
+app.use(express.json({ limit: "32kb" }));
+
+/* =========================
+   حد الطلبات لكل زائر (Rate Limit)
+   6 طلبات في الدقيقة - 60 طلب في اليوم
+========================= */
+
+const PER_MINUTE = 6;
+const PER_DAY = 60;
+const MINUTE_MS = 60 * 1000;
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+const hits = new Map();
+
+function aiRateLimit(req, res, next) {
+  const ip = req.ip || "unknown";
+  const now = Date.now();
+
+  const recent = (hits.get(ip) || []).filter((t) => now - t < DAY_MS);
+  const lastMinute = recent.filter((t) => now - t < MINUTE_MS);
+
+  if (lastMinute.length >= PER_MINUTE || recent.length >= PER_DAY) {
+    hits.set(ip, recent);
+    return res.status(429).json({
+      success: false,
+      error: "طلبات كثيرة، حاول بعد قليل."
+    });
+  }
+
+  recent.push(now);
+  hits.set(ip, recent);
+  next();
+}
+
+// تنظيف الذاكرة كل 10 دقايق
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, times] of hits) {
+    const fresh = times.filter((t) => now - t < DAY_MS);
+    if (fresh.length) {
+      hits.set(ip, fresh);
+    } else {
+      hits.delete(ip);
+    }
+  }
+}, 10 * MINUTE_MS);
+
+/* =========================
+   إعداد Groq
+========================= */
 
 const PORT = process.env.PORT || 3000;
 const GROQ_API_KEY = process.env.GROQ_API_KEY;
@@ -17,16 +90,17 @@ const client = GROQ_API_KEY
     })
   : null;
 
+const MAX_MESSAGE_LENGTH = 6000;
+
 app.get("/", (req, res) => {
   res.json({
     status: "SAWWIQ AI يعمل",
     backend: "جاهز",
-    groq: GROQ_API_KEY ? "مفتاح موجود" : "مفتاح غير موجود",
     provider: "Groq"
   });
 });
 
-app.post("/api/ai", async (req, res) => {
+app.post("/api/ai", aiRateLimit, async (req, res) => {
   try {
     const message = req.body?.message;
 
@@ -37,10 +111,17 @@ app.post("/api/ai", async (req, res) => {
       });
     }
 
+    if (message.length > MAX_MESSAGE_LENGTH) {
+      return res.status(400).json({
+        success: false,
+        error: "النص طويل جدًا، اختصره قليلًا."
+      });
+    }
+
     if (!client) {
       return res.status(500).json({
         success: false,
-        error: "مفتاح Groq غير موجود في Render."
+        error: "خدمة الذكاء الاصطناعي غير مهيأة حاليًا."
       });
     }
 
@@ -52,11 +133,12 @@ app.post("/api/ai", async (req, res) => {
 
     const response = await client.chat.completions.create({
       model: "llama-3.3-70b-versatile",
+      max_tokens: 1500,
       messages: [
         {
           role: "system",
           content: `
-أنت الذكاء الاصطناعي الرسمي لمنصة سَوِّق | SAWWIQ AI.
+أنت الذكاء الاصطناعي الرسمي لمنصة سَوِّق | SAWWIQ AI.
 
 أنت مستشار تسويق وإعلانات متخصص في مساعدة أصحاب
 المشاريع والمتاجر في الشرق الأوسط.
@@ -82,21 +164,21 @@ app.post("/api/ai", async (req, res) => {
 - أفكار زيادة المبيعات.
 - التسويق عبر Facebook وInstagram وTikTok وGoogle.
 
-باقات سَوِّق الحالية:
+باقات سَوِّق الحالية:
 
 البداية:
 ميزانية الإعلان من 50 إلى 90 دولار.
-عمولة سَوِّق 20%.
+عمولة سَوِّق 20%.
 
 النمو:
 ميزانية الإعلان من 100 إلى 400 دولار.
-عمولة سَوِّق 15%.
+عمولة سَوِّق 15%.
 
 الاحتراف:
 ميزانية الإعلان من 500 إلى 1000 دولار.
-عمولة سَوِّق 10%.
+عمولة سَوِّق 10%.
 
-ميزانية الإعلان منفصلة عن عمولة سَوِّق.
+ميزانية الإعلان منفصلة عن عمولة سَوِّق.
 
 قواعد مهمة:
 1. أجب باللغة العربية.
@@ -133,7 +215,6 @@ app.post("/api/ai", async (req, res) => {
       success: true,
       reply: reply
     });
-
   } catch (error) {
     console.error("================================");
     console.error("SAWWIQ AI ERROR");
@@ -142,18 +223,13 @@ app.post("/api/ai", async (req, res) => {
     console.error("Code:", error?.code || "غير معروف");
     console.error("================================");
 
+    // رسائل عامة للمستخدم - التفاصيل الداخلية تبقى في اللوج فقط
     let errorMessage = "تعذر تشغيل الذكاء الاصطناعي حاليًا.";
 
-    if (error?.status === 401) {
-      errorMessage = "مفتاح Groq غير صالح أو غير مقبول.";
-    } else if (error?.status === 403) {
-      errorMessage = "مفتاح Groq لا يملك الصلاحية المطلوبة.";
-    } else if (error?.status === 429) {
-      errorMessage = "تم تجاوز حد استخدام Groq.";
+    if (error?.status === 429) {
+      errorMessage = "الخدمة مشغولة حاليًا، حاول بعد قليل.";
     } else if (error?.status >= 500) {
-      errorMessage = "خدمة Groq تواجه مشكلة مؤقتة.";
-    } else if (error?.message) {
-      errorMessage = error.message;
+      errorMessage = "خدمة الذكاء الاصطناعي تواجه مشكلة مؤقتة.";
     }
 
     return res.status(500).json({
