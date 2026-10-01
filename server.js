@@ -4,17 +4,10 @@ import OpenAI from "openai";
 
 const app = express();
 
-/* =========================
-   الحماية: إعدادات عامة
-========================= */
-
-// مهم على Render عشان نعرف IP الزائر الحقيقي
 app.set("trust proxy", 1);
 
-// المواقع المسموح لها تكلم الـ API من المتصفح
 const ALLOWED_ORIGINS = [
   "https://jovial-meerkat-97f035.netlify.app"
-  // لو ربطت دومين خاص بالموقع، ضيفه هنا بنفس الشكل
 ];
 
 app.use(
@@ -28,13 +21,7 @@ app.use(
   })
 );
 
-// حد أقصى صغير لحجم الطلب
 app.use(express.json({ limit: "32kb" }));
-
-/* =========================
-   حد الطلبات لكل زائر (Rate Limit)
-   6 طلبات في الدقيقة - 60 طلب في اليوم
-========================= */
 
 const PER_MINUTE = 6;
 const PER_DAY = 60;
@@ -63,7 +50,6 @@ function aiRateLimit(req, res, next) {
   next();
 }
 
-// تنظيف الذاكرة كل 10 دقايق
 setInterval(() => {
   const now = Date.now();
   for (const [ip, times] of hits) {
@@ -76,12 +62,18 @@ setInterval(() => {
   }
 }, 10 * MINUTE_MS);
 
-/* =========================
-   إعداد Groq
-========================= */
-
 const PORT = process.env.PORT || 3000;
-const GROQ_API_KEY = process.env.GROQ_API_KEY;
+const RAW_KEY = process.env.GROQ_API_KEY;
+const GROQ_API_KEY = RAW_KEY
+  ? RAW_KEY.trim().replace(/^["']|["']$/g, "")
+  : RAW_KEY;
+
+console.log("Groq key check:", {
+  exists: Boolean(RAW_KEY),
+  startsWithGsk: Boolean(GROQ_API_KEY && GROQ_API_KEY.startsWith("gsk_")),
+  length: GROQ_API_KEY ? GROQ_API_KEY.length : 0,
+  hadExtraSpacesOrQuotes: Boolean(RAW_KEY && RAW_KEY !== GROQ_API_KEY)
+});
 
 const client = GROQ_API_KEY
   ? new OpenAI({
@@ -223,7 +215,6 @@ app.post("/api/ai", aiRateLimit, async (req, res) => {
     console.error("Code:", error?.code || "غير معروف");
     console.error("================================");
 
-    // رسائل عامة للمستخدم - التفاصيل الداخلية تبقى في اللوج فقط
     let errorMessage = "تعذر تشغيل الذكاء الاصطناعي حاليًا.";
 
     if (error?.status === 429) {
