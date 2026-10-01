@@ -63,12 +63,16 @@ setInterval(() => {
 }, 10 * MINUTE_MS);
 
 const PORT = process.env.PORT || 3000;
-const RAW_KEY = process.env.GROQ_API_KEY;
+const KEY_SOURCE = process.env.SAWWIQ_GROQ_KEY
+  ? "SAWWIQ_GROQ_KEY"
+  : "GROQ_API_KEY";
+const RAW_KEY = process.env.SAWWIQ_GROQ_KEY || process.env.GROQ_API_KEY;
 const GROQ_API_KEY = RAW_KEY
   ? RAW_KEY.trim().replace(/^["']|["']$/g, "")
   : RAW_KEY;
 
 console.log("Groq key check:", {
+  source: KEY_SOURCE,
   exists: Boolean(RAW_KEY),
   startsWithGsk: Boolean(GROQ_API_KEY && GROQ_API_KEY.startsWith("gsk_")),
   length: GROQ_API_KEY ? GROQ_API_KEY.length : 0,
