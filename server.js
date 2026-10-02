@@ -63,6 +63,7 @@ setInterval(() => {
 }, 10 * MINUTE_MS);
 
 const PORT = process.env.PORT || 3000;
+const MODEL = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
 const KEY_SOURCE = process.env.SAWWIQ_GROQ_KEY
   ? "SAWWIQ_GROQ_KEY"
   : "GROQ_API_KEY";
@@ -73,6 +74,7 @@ const GROQ_API_KEY = RAW_KEY
 
 console.log("Groq key check:", {
   source: KEY_SOURCE,
+  model: MODEL,
   exists: Boolean(RAW_KEY),
   startsWithGsk: Boolean(GROQ_API_KEY && GROQ_API_KEY.startsWith("gsk_")),
   length: GROQ_API_KEY ? GROQ_API_KEY.length : 0,
@@ -124,12 +126,13 @@ app.post("/api/ai", aiRateLimit, async (req, res) => {
     console.log("================================");
     console.log("SAWWIQ AI REQUEST");
     console.log("Provider: Groq");
+    console.log("Model:", MODEL);
     console.log("Message length:", message.length);
     console.log("================================");
 
     const response = await client.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      max_tokens: 1500,
+      model: MODEL,
+      max_tokens: 3000,
       messages: [
         {
           role: "system",
