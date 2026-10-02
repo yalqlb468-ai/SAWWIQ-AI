@@ -1,65 +1,4084 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سُوق | SAWWIQ AI</title>
-    <style>
-        * { box-sizing: border-box; font-family: 'Tahoma', sans-serif; margin: 0; padding: 0; }
-        body { background-color: #0d1117; color: #ffffff; padding: 15px; }
-        header { text-align: center; padding: 20px 0; border-bottom: 1px solid #21262d; margin-bottom: 20px; }
-        header h1 { color: #00ff66; font-size: 24px; margin-bottom: 5px; }
-        .subtitle { color: #8b949e; font-size: 13px; }
-        .nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 20px; }
-        .nav-btn { background-color: #161b22; color: #c9d1d9; border: 1px solid #30363d; padding: 8px 14px; border-radius: 8px; font-size: 13px; cursor: pointer; }
-        .nav-btn.active { background-color: #238636; color: white; border-color: #2ea043; }
-        .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-        h2 { font-size: 18px; margin-bottom: 10px; color: #58a6ff; }
-        textarea { width: 100%; height: 100px; background-color: #0d1117; border: 1px solid #30363d; border-radius: 8px; color: white; padding: 10px; font-size: 14px; margin-bottom: 15px; resize: none; }
-        .action-btn { background-color: #238636; color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 15px; cursor: pointer; width: 100%; font-weight: bold; }
-        .action-btn:hover { background-color: #2ea043; }
-        .result-box { background-color: #0d1117; border: 1px solid #238636; border-radius: 8px; padding: 15px; margin-top: 15px; display: none; font-size: 14px; line-height: 1.6; color: #c9d1d9; }
-        footer { text-align: center; padding: 15px; color: #8b949e; font-size: 12px; border-top: 1px solid #21262d; margin-top: 20px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سَوِّق | SAWWIQ AI</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:#f5f7fb;
+color:#172033;
+line-height:1.7;
+}
+
+button,input,select,textarea{font-family:inherit}
+button{cursor:pointer}
+
+header{
+background:linear-gradient(135deg,#050505,#111827);
+color:#fff;
+position:sticky;
+top:0;
+z-index:1000;
+box-shadow:0 4px 20px rgba(0,0,0,.25);
+}
+
+.header-inner{
+max-width:1200px;
+margin:auto;
+padding:14px 18px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+}
+
+.logo{
+font-size:25px;
+font-weight:bold;
+cursor:pointer;
+white-space:nowrap;
+}
+
+.logo span{color:#22c55e}
+
+.nav{
+display:flex;
+gap:7px;
+flex-wrap:wrap;
+justify-content:center;
+}
+
+.nav button{
+background:transparent;
+color:#fff;
+border:1px solid rgba(34,197,94,.35);
+padding:7px 11px;
+border-radius:10px;
+font-size:13px;
+}
+
+.nav button:hover{
+background:rgba(34,197,94,.15);
+}
+
+.auth-btn{
+background:#22c55e;
+color:#052e16;
+border:0;
+padding:9px 14px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:25px 16px 70px;
+}
+
+.page{display:none}
+.page.active{display:block}
+
+.hero{
+background:linear-gradient(135deg,#050505,#14532d);
+color:#fff;
+padding:55px 25px;
+border-radius:25px;
+text-align:center;
+margin-bottom:25px;
+box-shadow:0 15px 40px rgba(22,163,74,.18);
+}
+
+.hero h1{
+font-size:38px;
+margin-bottom:12px;
+}
+
+.hero p{
+max-width:800px;
+margin:auto;
+color:#dcfce7;
+}
+
+.hero-actions{
+margin-top:25px;
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap;
+}
+
+.btn{
+border:0;
+border-radius:12px;
+padding:12px 18px;
+font-weight:bold;
+font-size:15px;
+}
+
+.btn-primary{
+background:#16a34a;
+color:#fff;
+}
+
+.btn-primary:hover{background:#15803d}
+
+.btn-success{
+background:#16a34a;
+color:#fff;
+}
+
+.btn-danger{
+background:#dc2626;
+color:#fff;
+}
+
+.btn-dark{
+background:#050505;
+color:#fff;
+}
+
+.btn-light{
+background:#e5e7eb;
+color:#111827;
+}
+
+.btn-small{
+padding:7px 10px;
+font-size:12px;
+margin:2px;
+}
+
+.section-title{
+text-align:center;
+margin:35px 0 18px;
+}
+
+.section-title h2{font-size:27px}
+.section-title p{color:#64748b}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+}
+
+.card{
+background:#fff;
+border-radius:18px;
+padding:22px;
+box-shadow:0 5px 20px rgba(15,23,42,.07);
+border:1px solid #e5e7eb;
+}
+
+.card h3{margin-bottom:10px}
+
+.service-icon{
+font-size:35px;
+margin-bottom:10px;
+}
+
+.form-card{
+max-width:800px;
+margin:20px auto;
+background:#fff;
+border-radius:20px;
+padding:25px;
+box-shadow:0 8px 30px rgba(15,23,42,.08);
+}
+
+.form-group{margin-bottom:15px}
+
+.form-group label{
+display:block;
+margin-bottom:6px;
+font-weight:bold;
+}
+
+input,select,textarea{
+width:100%;
+border:1px solid #d1d5db;
+border-radius:10px;
+padding:12px;
+background:#fff;
+outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+border-color:#16a34a;
+box-shadow:0 0 0 3px rgba(22,163,74,.1);
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.row{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.packages{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px;
+}
+
+.package{
+background:#fff;
+border-radius:20px;
+padding:25px;
+border:2px solid #e5e7eb;
+position:relative;
+overflow:hidden;
+}
+
+.package.featured{
+border-color:#16a34a;
+transform:translateY(-5px);
+box-shadow:0 10px 30px rgba(22,163,74,.12);
+}
+
+.package .tag{
+position:absolute;
+top:12px;
+left:12px;
+background:#16a34a;
+color:#fff;
+padding:4px 9px;
+border-radius:20px;
+font-size:11px;
+}
+
+.package-price{
+font-size:28px;
+font-weight:bold;
+color:#15803d;
+margin:12px 0;
+}
+
+.package ul{
+list-style:none;
+margin:15px 0;
+}
+
+.package li{
+padding:5px 0;
+}
+
+.package li:before{
+content:"✓";
+color:#16a34a;
+font-weight:bold;
+margin-left:7px;
+}
+
+.fee-box{
+background:#f0fdf4;
+border:1px solid #bbf7d0;
+padding:12px;
+border-radius:12px;
+margin-top:12px;
+}
+
+.payment-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+}
+
+.payment{
+background:#fff;
+border:2px solid #e5e7eb;
+border-radius:17px;
+padding:20px;
+text-align:center;
+transition:.2s;
+}
+
+.payment:hover{
+transform:translateY(-3px);
+border-color:#16a34a;
+}
+
+.payment.selected{
+border-color:#16a34a;
+background:#f0fdf4;
+}
+
+.payment-icon{
+font-size:35px;
+}
+
+.dashboard-top{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-bottom:20px;
+}
+
+.stat{
+background:#fff;
+padding:20px;
+border-radius:17px;
+box-shadow:0 5px 20px rgba(0,0,0,.05);
+}
+
+.stat small{color:#64748b}
+
+.stat strong{
+display:block;
+font-size:25px;
+color:#15803d;
+}
+
+.table-wrap{
+overflow-x:auto;
+background:#fff;
+border-radius:18px;
+box-shadow:0 5px 20px rgba(0,0,0,.06);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:950px;
+}
+
+th,td{
+padding:12px;
+border-bottom:1px solid #e5e7eb;
+text-align:right;
+}
+
+th{background:#f8fafc}
+
+.badge{
+display:inline-block;
+padding:4px 9px;
+border-radius:20px;
+font-size:12px;
+background:#fef3c7;
+color:#92400e;
+}
+
+.badge.green{
+background:#dcfce7;
+color:#166534;
+}
+
+.badge.red{
+background:#fee2e2;
+color:#991b1b;
+}
+
+.empty{
+text-align:center;
+padding:35px;
+color:#64748b;
+}
+
+.admin-box{
+background:linear-gradient(135deg,#050505,#14532d);
+color:#fff;
+padding:22px;
+border-radius:18px;
+margin-bottom:20px;
+}
+
+.ai-box{
+max-width:850px;
+margin:20px auto;
+background:#fff;
+border-radius:20px;
+box-shadow:0 5px 25px rgba(0,0,0,.07);
+overflow:hidden;
+}
+
+.ai-head{
+background:linear-gradient(135deg,#050505,#14532d);
+color:#fff;
+padding:18px;
+}
+
+.ai-messages{
+min-height:280px;
+max-height:400px;
+overflow-y:auto;
+padding:15px;
+}
+
+.msg{
+padding:10px 13px;
+border-radius:14px;
+margin-bottom:10px;
+max-width:85%;
+word-wrap:break-word;
+}
+
+.msg.user{
+background:#dcfce7;
+margin-right:auto;
+}
+
+.msg.ai{
+background:#f1f5f9;
+margin-left:auto;
+}
+
+.ai-input{
+display:flex;
+gap:8px;
+padding:12px;
+border-top:1px solid #e5e7eb;
+}
+
+.ai-input input{flex:1}
+
+.analysis-result{
+padding:22px;
+line-height:2;
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+.analysis-result strong{
+color:#15803d;
+}
+
+.analysis-loading{
+display:none;
+max-width:800px;
+margin:20px auto;
+background:#fff;
+border-radius:20px;
+padding:25px;
+text-align:center;
+box-shadow:0 5px 25px rgba(0,0,0,.07);
+}
+
+.loading-icon{
+font-size:42px;
+margin-bottom:10px;
+animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+0%,100%{transform:scale(1)}
+50%{transform:scale(1.15)}
+}
+
+.map-section{
+margin-top:35px;
+background:linear-gradient(135deg,#050505,#111827);
+border-radius:25px;
+padding:30px 20px;
+color:#fff;
+overflow:hidden;
+}
+
+.map-title{
+text-align:center;
+margin-bottom:20px;
+}
+
+.map-title h2{
+font-size:27px;
+color:#22c55e;
+}
+
+.map-title p{color:#cbd5e1}
+
+.map-area{
+position:relative;
+max-width:950px;
+margin:auto;
+min-height:390px;
+border-radius:20px;
+background:radial-gradient(circle at center,rgba(34,197,94,.13),transparent 60%);
+border:1px solid rgba(34,197,94,.18);
+}
+
+.map-shape{
+position:absolute;
+inset:35px 10%;
+}
+
+.map-shape svg{
+width:100%;
+height:100%;
+min-height:310px;
+}
+
+.country{
+fill:#18251d;
+stroke:#22c55e;
+stroke-width:1.2;
+}
+
+.map-label{
+fill:#fff;
+font-size:13px;
+font-family:Tahoma,Arial,sans-serif;
+font-weight:bold;
+}
+
+.map-dot{
+fill:#22c55e;
+stroke:#fff;
+stroke-width:2;
+}
+
+.map-countries{
+display:flex;
+justify-content:center;
+gap:8px;
+flex-wrap:wrap;
+margin-top:15px;
+}
+
+.map-country{
+background:#111827;
+border:1px solid #166534;
+padding:5px 10px;
+border-radius:20px;
+font-size:12px;
+color:#dcfce7;
+}
+
+.modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:2000;
+align-items:center;
+justify-content:center;
+padding:15px;
+}
+
+.modal.show{display:flex}
+
+.modal-content{
+background:#fff;
+width:100%;
+max-width:500px;
+border-radius:20px;
+padding:25px;
+max-height:90vh;
+overflow:auto;
+}
+
+.close{
+float:left;
+background:#fee2e2;
+border:0;
+width:35px;
+height:35px;
+border-radius:50%;
+font-size:20px;
+}
+
+.alert-box{
+padding:14px;
+background:#fff7ed;
+border:1px solid #fed7aa;
+color:#9a3412;
+border-radius:12px;
+margin-bottom:15px;
+}
+
+.order-details{
+background:#f8fafc;
+padding:15px;
+border-radius:14px;
+margin-top:15px;
+}
+
+.order-details div{padding:5px 0}
+
+.notice{
+padding:14px;
+background:#f0fdf4;
+border:1px solid #bbf7d0;
+border-radius:12px;
+margin:15px 0;
+}
+
+.status-select{
+min-width:180px;
+padding:7px;
+font-size:12px;
+}
+
+@media(max-width:900px){
+.grid,.packages{grid-template-columns:1fr 1fr}
+.payment-grid{grid-template-columns:1fr 1fr}
+.dashboard-top{grid-template-columns:1fr 1fr}
+}
+
+@media(max-width:650px){
+.header-inner{flex-direction:column}
+.nav{width:100%}
+.nav button{font-size:11px}
+.hero h1{font-size:28px}
+.grid,.packages,.payment-grid,.dashboard-top,.row{
+grid-template-columns:1fr;
+}
+.container{padding:15px 10px 60px}
+.map-area{min-height:300px}
+.map-shape{inset:25px 3%}
+.map-label{font-size:10px}
+.ai-input{
+flex-direction:column;
+}
+}
+
+/* ===== الدفعة 1: واجهة العميل والصفحات التعريفية ===== */
+.meta-card{border:1px solid rgba(34,197,94,.45);background:linear-gradient(135deg,#050505,#111827);color:#fff}
+.meta-card p{color:#cbd5e1;margin-bottom:12px}
+.meta-status{display:inline-block;padding:3px 12px;border-radius:999px;background:#334155;color:#fff;font-size:13px;margin-bottom:10px}
+.meta-note{display:none;margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);font-size:14px;color:#e2e8f0}
+.journey{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-top:12px}
+.journey-step{background:#f8fafc;border:1px solid #e2e8f0;border-radius:14px;padding:12px;text-align:center;font-size:14px;cursor:pointer}
+.journey-step b{display:block;color:#22c55e;font-size:22px}
+.info-page{max-width:850px;margin:auto}
+.info-page h2{margin-bottom:6px}
+.info-page h3{margin-top:18px}
+.info-page p,.info-page li{color:#334155}
+.info-page ul{padding-right:22px;margin:8px 0}
+.info-updated{color:#64748b;font-size:13px}
+.footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin:8px 0}
+.footer-links a{color:#22c55e;text-decoration:none;font-size:14px;cursor:pointer}
+</style>
 </head>
+
 <body>
-    <header>
-        <h1>سُوق | SAWWIQ AI</h1>
-        <div class="subtitle">منصة الذكاء الاصطناعي للتسويق المتقدم</div>
-    </header>
-    <div class="nav-buttons">
-        <button class="nav-btn active">الرئيسية</button>
-        <button class="nav-btn">تحليل ذكي</button>
-        <button class="nav-btn">إطلاق حملة</button>
-        <button class="nav-btn">الباقات</button>
-        <button class="nav-btn">المساعد</button>
-    </div>
-    <main>
-        <div class="card">
-            <h2>📊 تحليل ذكي لسُوق</h2>
-            <p style="font-size: 13px; color: #8b949e; margin-bottom: 10px;">أدخل بيانات الحملة أو الخطة التسويقية ليقوم الذكاء الاصطناعي بتحليلها:</p>
-            <textarea id="planInput" placeholder="اكتب تفاصيل خطتك هنا..."></textarea>
-            <button class="action-btn" onclick="runAnalysis()">بدء التحليل الذكي 🧠</button>
-            <div id="resultArea" class="result-box"></div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 سُوق | SAWWIQ AI - جميع الحقوق محفوظة</p>
-    </footer>
-    <script>
-        function runAnalysis() {
-            const text = document.getElementById('planInput').value;
-            const resBox = document.getElementById('resultArea');
-            if(text.trim() === "") { alert("الرجاء كتابة تفاصيل الخطة أولاً!"); return; }
-            resBox.style.display = "block";
-            resBox.innerHTML = "<strong>⏳ جاري معالجة وتحليل البيانات بواسطة مساعد سُوق...</strong>";
-            setTimeout(() => {
-                resBox.innerHTML = `<strong>✨ نتيجة التحليل النهائي:</strong><br>` +
-                `• تم فحص الخطة التسويقية بنجاح.<br>` +
-                `• تقييم الكفاءة: ممتاز ومناسب للجمهور المستهدف.<br>` +
-                `• توصيات إضافية: يُفضل زيادة ميزانية الإعلانات الموجهة بنسبة 15% لتحقيق نتائج أسرع.`;
-            }, 1200);
-        }
-    </script>
+
+<header>
+
+<div class="header-inner">
+
+<div class="logo" onclick="navigate('home')">
+سَوِّق <span>| SAWWIQ AI</span>
+</div>
+
+<div class="nav">
+
+<button onclick="navigate('home')">
+الرئيسية
+</button>
+
+<button onclick="navigate('analysis')">
+🧠 تحليل ذكي
+</button>
+
+<button onclick="navigate('campaign')">
+🚀 إطلاق حملة
+</button>
+
+<button onclick="navigate('packages')">
+💰 الباقات
+</button>
+
+<button onclick="navigate('payments')">
+💳 الدفع
+</button>
+
+<button onclick="navigate('dashboard')">
+📊 حسابي
+</button>
+
+<button onclick="navigate('assistant')">
+💬 المساعد
+</button>
+
+</div>
+
+<button
+class="auth-btn"
+id="authButton"
+onclick="openAuthModal()"
+>
+تسجيل / دخول
+</button>
+
+</div>
+
+</header>
+
+<main class="container">
+
+<!-- =========================
+الرئيسية
+========================= -->
+
+<section id="home" class="page active">
+
+<div class="hero">
+
+<h1>سَوِّق | SAWWIQ AI</h1>
+
+<p>
+منصة ذكية لمساعدة أصحاب المشاريع والمتاجر على تحليل نشاطهم،
+فهم جمهورهم، إعداد استراتيجيات التسويق، وتجهيز الحملات الإعلانية
+والوصول إلى العملاء في أسواق الشرق الأوسط.
+</p>
+
+<div class="hero-actions">
+
+<button
+class="btn btn-primary"
+onclick="navigate('analysis')"
+>
+🧠 حلل نشاطك بالذكاء الاصطناعي
+</button>
+
+<button
+class="btn btn-dark"
+onclick="navigate('campaign')"
+>
+🚀 ابدأ حملتك الآن
+</button>
+
+<button
+class="btn btn-light"
+onclick="navigate('packages')"
+>
+💰 شاهد الباقات
+</button>
+
+</div>
+
+</div>
+
+<div class="section-title">
+<h2>خدمات سَوِّق</h2>
+<p>من التحليل إلى الحملة الإعلانية</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="service-icon">🧠</div>
+<h3>تحليل ذكي</h3>
+<p>
+تحليل النشاط والمنتج والجمهور والسوق واقتراح استراتيجية
+تسويقية مناسبة.
+</p>
+</div>
+
+<div class="card">
+<div class="service-icon">📣</div>
+<h3>إعلانات وترويج</h3>
+<p>
+تجهيز وتنظيم الحملات الإعلانية حسب الميزانية والدولة المستهدفة.
+</p>
+</div>
+
+<div class="card">
+<div class="service-icon">🤖</div>
+<h3>ذكاء اصطناعي</h3>
+<p>
+اقتراح أفكار إعلانية ونصوص تسويقية مناسبة لنشاطك.
+</p>
+</div>
+
+<div class="card">
+<div class="service-icon">🎨</div>
+<h3>تصميمات دعائية</h3>
+<p>
+أفكار وتصميمات مناسبة للمتاجر والمشاريع والحملات.
+</p>
+</div>
+
+<div class="card">
+<div class="service-icon">🎬</div>
+<h3>فيديوهات ترويجية</h3>
+<p>
+إعداد أفكار فيديوهات إعلانية حسب مجال النشاط والمنتج.
+</p>
+</div>
+
+<div class="card">
+<div class="service-icon">✍️</div>
+<h3>كتابة إعلانية</h3>
+<p>
+كتابة نصوص للإعلانات والمنشورات والصفحات التجارية.
+</p>
+</div>
+
+</div>
+
+<div class="map-section">
+
+<div class="map-title">
+<h2>🗺️ نصل إلى أسواق الشرق الأوسط</h2>
+<p>
+سَوِّق مصمم لخدمة المشاريع والمتاجر في مختلف الأسواق العربية.
+</p>
+</div>
+
+<div class="map-area">
+
+<div class="map-shape">
+
+<svg
+viewBox="0 0 900 430"
+xmlns="http://www.w3.org/2000/svg"
+>
+
+<path class="country"
+d="M40 120 L150 105 L225 125 L280 170 L260 245 L190 265 L110 250 L60 210 Z"
+/>
+
+<path class="country"
+d="M205 120 L275 105 L330 130 L320 205 L270 225 L230 190 Z"
+/>
+
+<path class="country"
+d="M330 145 L390 135 L420 180 L395 245 L340 230 L325 190 Z"
+/>
+
+<path class="country"
+d="M405 100 L470 80 L505 115 L480 165 L425 160 Z"
+/>
+
+<path class="country"
+d="M470 75 L530 60 L555 100 L520 135 L480 115 Z"
+/>
+
+<path class="country"
+d="M520 130 L590 105 L635 150 L610 215 L545 205 L515 170 Z"
+/>
+
+<path class="country"
+d="M610 205 L680 180 L745 205 L770 270 L700 300 L635 270 Z"
+/>
+
+<path class="country"
+d="M675 180 L730 160 L775 185 L745 220 L690 215 Z"
+/>
+
+<path class="country"
+d="M425 235 L520 205 L610 215 L680 275 L620 350 L515 365 L445 320 Z"
+/>
+
+<path class="country"
+d="M430 45 L540 35 L625 65 L590 105 L510 100 L455 80 Z"
+/>
+
+<path class="country"
+d="M620 75 L710 70 L770 125 L735 205 L650 190 L610 145 Z"
+/>
+
+<path class="country"
+d="M100 205 L205 195 L260 245 L220 310 L115 295 L80 250 Z"
+/>
+
+<path class="country"
+d="M35 190 L95 175 L120 225 L85 260 L45 245 Z"
+/>
+
+<path class="country"
+d="M10 120 L75 105 L110 150 L95 200 L35 190 Z"
+/>
+
+<circle
+class="map-dot"
+cx="365"
+cy="195"
+r="6"
+/>
+
+<circle
+class="map-dot"
+cx="160"
+cy="240"
+r="6"
+/>
+
+<circle
+class="map-dot"
+cx="560"
+cy="155"
+r="6"
+/>
+
+<circle
+class="map-dot"
+cx="680"
+cy="235"
+r="6"
+/>
+
+<circle
+class="map-dot"
+cx="730"
+cy="250"
+r="6"
+/>
+
+<text
+class="map-label"
+x="350"
+y="220"
+>
+مصر
+</text>
+
+<text
+class="map-label"
+x="135"
+y="265"
+>
+ليبيا
+</text>
+
+<text
+class="map-label"
+x="535"
+y="180"
+>
+العراق
+</text>
+
+<text
+class="map-label"
+x="655"
+y="265"
+>
+السعودية
+</text>
+
+<text
+class="map-label"
+x="710"
+y="280"
+>
+الخليج
+</text>
+
+</svg>
+
+</div>
+
+</div>
+
+<div class="map-countries">
+
+<span class="map-country">🇱🇾 ليبيا</span>
+<span class="map-country">🇪🇬 مصر</span>
+<span class="map-country">🇸🇦 السعودية</span>
+<span class="map-country">🇦🇪 الإمارات</span>
+<span class="map-country">🇯🇴 الأردن</span>
+<span class="map-country">🇮🇶 العراق</span>
+<span class="map-country">🇹🇳 تونس</span>
+<span class="map-country">🇩🇿 الجزائر</span>
+<span class="map-country">🇲🇦 المغرب</span>
+<span class="map-country">🇰🇼 الكويت</span>
+<span class="map-country">🇶🇦 قطر</span>
+<span class="map-country">🇧🇭 البحرين</span>
+<span class="map-country">🇴🇲 عمان</span>
+
+</div>
+
+</div>
+
+<div class="section-title">
+<h2>كيف يعمل سَوِّق؟</h2>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<h3>1️⃣ أنشئ حسابك</h3>
+<p>أدخل بياناتك الأساسية فقط.</p>
+</div>
+
+<div class="card">
+<h3>2️⃣ حلل نشاطك</h3>
+<p>
+أدخل بيانات مشروعك ودع الذكاء الاصطناعي يحلل السوق والجمهور.
+</p>
+</div>
+
+<div class="card">
+<h3>3️⃣ أطلق حملتك</h3>
+<p>
+حدد الميزانية والدولة والباقـة وأرسل طلب الحملة.
+</p>
+</div>
+
+</div>
+
+<div class="notice">
+
+<strong>💡 كيف نحسب المبلغ؟</strong><br>
+
+ميزانية الإعلان تظل مخصصة للإعلان،
+وعمولة سَوِّق تُحسب بشكل منفصل.<br>
+
+مثال:
+ميزانية $100 + عمولة 15% = إجمالي $115.
+
+</div>
+
+</section>
+
+
+<!-- =========================
+تحليل سَوِّق الذكي
+========================= -->
+
+<section id="analysis" class="page">
+
+<div class="section-title">
+
+<h2>🧠 تحليل سَوِّق الذكي</h2>
+
+<p>
+دع سَوِّق يحلل نشاطك ومنتجك ويبني لك خطة تسويقية أولية.
+</p>
+
+</div>
+
+<div class="form-card">
+
+<div class="alert-box">
+
+🤖 <strong>محرك سَوِّق الذكي</strong><br>
+
+أدخل معلومات نشاطك، وسيقوم الذكاء الاصطناعي بتحليل
+الجمهور والسوق والمنصات والميزانية واقتراح خطة تسويقية.
+
+</div>
+
+<div class="form-group">
+
+<label>اسم النشاط / المتجر</label>
+
+<input
+id="analysisName"
+placeholder="مثال: متجر الأناقة"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>مجال النشاط</label>
+
+<select id="analysisField">
+
+<option value="">اختر مجال النشاط</option>
+
+<option>ملابس وأزياء</option>
+<option>مطاعم ومقاهي</option>
+<option>عطور ومستحضرات</option>
+<option>إلكترونيات</option>
+<option>خدمات</option>
+<option>عقارات</option>
+<option>تعليم وتدريب</option>
+<option>صحة وجمال</option>
+<option>تجارة إلكترونية</option>
+<option>أثاث وديكور</option>
+<option>سياحة وسفر</option>
+<option>سيارات</option>
+<option>أخرى</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>رابط المنتج أو المتجر</label>
+
+<input
+id="analysisUrl"
+placeholder="https://..."
+>
+
+</div>
+
+<div class="form-group">
+
+<label>وصف المنتج أو الخدمة</label>
+
+<textarea
+id="analysisDescription"
+placeholder="اكتب ماذا تبيع، وما الذي يميز منتجك أو خدمتك، ومن تظن أنه سيشتريها..."
+></textarea>
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+
+<label>الدولة المستهدفة</label>
+
+<select id="analysisCountry">
+
+<option value="">اختر الدولة</option>
+
+<option>ليبيا</option>
+<option>مصر</option>
+<option>السعودية</option>
+<option>الإمارات</option>
+<option>الأردن</option>
+<option>العراق</option>
+<option>الكويت</option>
+<option>قطر</option>
+<option>البحرين</option>
+<option>عمان</option>
+<option>تونس</option>
+<option>الجزائر</option>
+<option>المغرب</option>
+<option>موريتانيا</option>
+<option>كل الشرق الأوسط</option>
+
+</select>
+
+</div>
+
+<div class="form-group">
+
+<label>الميزانية المتوقعة بالدولار</label>
+
+<input
+id="analysisBudget"
+type="number"
+min="50"
+placeholder="مثال: 100"
+>
+
+</div>
+
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:10px"
+onclick="runBusinessAnalysis()"
+>
+
+🧠 ابدأ التحليل بالذكاء الاصطناعي
+
+</button>
+
+</div>
+
+<div
+id="analysisLoading"
+class="analysis-loading"
+>
+
+<div class="loading-icon">🤖</div>
+
+<h3>سَوِّق يعمل الآن...</h3>
+
+<p>
+جاري تحليل النشاط والجمهور والسوق والميزانية...
+</p>
+
+</div>
+
+<div
+id="analysisResult"
+class="ai-box"
+style="display:none"
+>
+
+<div class="ai-head">
+
+<h3>📊 نتيجة تحليل سَوِّق</h3>
+
+<p>
+تحليل مبدئي مبني على البيانات التي أدخلتها.
+</p>
+
+</div>
+
+<div
+id="analysisResultContent"
+class="analysis-result"
+></div>
+
+<div
+style="padding:0 20px 20px"
+>
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="navigate('campaign')"
+>
+
+🚀 الانتقال إلى إطلاق الحملة
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+إطلاق الحملة
+========================= -->
+
+<section id="campaign" class="page">
+
+<div class="section-title">
+
+<h2>🚀 إطلاق حملة ذكية</h2>
+
+<p>
+أدخل بيانات الحملة وسيتم حساب التكلفة تلقائيًا.
+</p>
+
+</div>
+
+<div class="form-card">
+
+<div class="alert-box">
+
+💡 الميزانية هنا هي <strong>ميزانية الإعلان فقط</strong>.
+عمولة سَوِّق يتم حسابها بشكل منفصل.
+
+</div>
+
+<div class="form-group">
+
+<label>اسم النشاط / المتجر</label>
+
+<input
+id="aiCampName"
+placeholder="مثال: متجر الأناقة"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>رابط المنتج أو المنشور</label>
+
+<input
+id="aiCampUrl"
+placeholder="https://..."
+>
+
+</div>
+
+<div class="row">
+
+<div class="form-group">
+
+<label>ميزانية الإعلان بالدولار</label>
+
+<input
+id="aiCampBudget"
+type="number"
+min="50"
+placeholder="مثال: 100"
+oninput="updateCampaignCost()"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>الدولة المستهدفة</label>
+
+<select id="aiCampCountry">
+
+<option value="">اختر الدولة</option>
+<option>ليبيا</option>
+<option>مصر</option>
+<option>الأردن</option>
+<option>السعودية</option>
+<option>الإمارات</option>
+<option>الكويت</option>
+<option>قطر</option>
+<option>البحرين</option>
+<option>عمان</option>
+<option>العراق</option>
+<option>تونس</option>
+<option>الجزائر</option>
+<option>المغرب</option>
+<option>موريتانيا</option>
+<option>كل الشرق الأوسط</option>
+
+</select>
+
+</div>
+
+</div>
+
+<div class="form-group">
+
+<label>الباقة</label>
+
+<select
+id="aiCampPackage"
+onchange="updateCampaignCost()"
+>
+
+<option value="starter">
+🥉 البداية — عمولة 20%
+</option>
+
+<option value="growth">
+🥈 النمو — عمولة 15%
+</option>
+
+<option value="pro">
+🥇 الاحتراف — عمولة 10%
+</option>
+
+</select>
+
+</div>
+
+<div
+class="fee-box"
+id="campaignCost"
+>
+أدخل الميزانية لحساب الإجمالي.
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="launchAICampaign()"
+>
+
+🚀 إنشاء الحملة والانتقال للدفع
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+الباقات
+========================= -->
+
+<section id="packages" class="page">
+
+<div class="section-title">
+
+<h2>💰 الباقات والميزانيات</h2>
+
+<p>العمولة محسوبة على ميزانية الإعلان</p>
+
+</div>
+
+<div class="packages">
+
+<div class="package">
+
+<h3>🥉 البداية</h3>
+
+<div class="package-price">$50 - $90</div>
+
+<p>مناسبة للتجربة والحملات الصغيرة.</p>
+
+<ul>
+
+<li>عمولة سَوِّق: 20%</li>
+<li>تحديد الدولة</li>
+<li>تنظيم الحملة</li>
+<li>متابعة الطلب</li>
+<li>دعم واتساب</li>
+
+</ul>
+
+<div class="fee-box">
+
+$50 إعلان + $10 عمولة =
+<strong>$60</strong>
+
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="choosePackage('starter')"
+>
+
+اختيار الباقة
+
+</button>
+
+</div>
+
+
+<div class="package featured">
+
+<div class="tag">
+الأكثر استخدامًا
+</div>
+
+<h3>🥈 النمو</h3>
+
+<div class="package-price">$100 - $400</div>
+
+<p>للمشاريع التي تريد توسيع الوصول.</p>
+
+<ul>
+
+<li>عمولة سَوِّق: 15%</li>
+<li>تحديد الدولة والجمهور</li>
+<li>تنظيم الحملة</li>
+<li>متابعة الطلب</li>
+<li>دعم واتساب</li>
+
+</ul>
+
+<div class="fee-box">
+
+$100 إعلان + $15 عمولة =
+<strong>$115</strong>
+
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="choosePackage('growth')"
+>
+
+اختيار الباقة
+
+</button>
+
+</div>
+
+
+<div class="package">
+
+<h3>🥇 الاحتراف</h3>
+
+<div class="package-price">$500 - $1000</div>
+
+<p>للحملات الأكبر والمشاريع المتقدمة.</p>
+
+<ul>
+
+<li>عمولة سَوِّق: 10%</li>
+<li>تخطيط الحملة</li>
+<li>تحديد السوق المستهدف</li>
+<li>متابعة مستمرة</li>
+<li>دعم مباشر</li>
+
+</ul>
+
+<div class="fee-box">
+
+$500 إعلان + $50 عمولة =
+<strong>$550</strong>
+
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%;margin-top:15px"
+onclick="choosePackage('pro')"
+>
+
+اختيار الباقة
+
+</button>
+
+</div>
+
+</div>
+
+<div
+class="card"
+style="margin-top:25px"
+>
+
+<h3>⚠️ ملاحظة مهمة</h3>
+
+<p>
+ميزانية الإعلان وعمولة سَوِّق منفصلتان.
+العمولة لا يتم خصمها من ميزانية الإعلان.
+</p>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+الدفع
+========================= -->
+
+<section id="payments" class="page">
+
+<div class="section-title">
+
+<h2>💳 طرق الدفع</h2>
+
+<p>
+اختر الطريقة المناسبة ثم أرسل الطلب للدعم عبر واتساب.
+</p>
+
+</div>
+
+<div class="payment-grid">
+
+<div
+class="payment"
+id="pay-binance"
+onclick="selectPaymentMethod('Binance Pay')"
+>
+
+<div class="payment-icon">🟡</div>
+<h3>Binance Pay</h3>
+<p>الدفع عبر بايننس</p>
+
+</div>
+
+<div
+class="payment"
+id="pay-usdt"
+onclick="selectPaymentMethod('USDT TRC20')"
+>
+
+<div class="payment-icon">₮</div>
+<h3>USDT TRC20</h3>
+<p>تحويل USDT</p>
+
+</div>
+
+<div
+class="payment"
+id="pay-vodafone"
+onclick="selectPaymentMethod('Vodafone Cash / InstaPay مصر')"
+>
+
+<div class="payment-icon">🇪🇬</div>
+<h3>مصر</h3>
+<p>Vodafone Cash / InstaPay</p>
+
+</div>
+
+<div
+class="payment"
+id="pay-jordan"
+onclick="selectPaymentMethod('Zain Cash / Orange Money الأردن')"
+>
+
+<div class="payment-icon">🇯🇴</div>
+<h3>الأردن</h3>
+<p>Zain Cash / Orange Money</p>
+
+</div>
+
+</div>
+
+<div class="form-card">
+
+<div
+class="order-details"
+id="paymentOrderDetails"
+>
+لا توجد حملة قيد الدفع حاليًا.
+</div>
+
+<button
+class="btn btn-success"
+style="width:100%;margin-top:15px"
+onclick="confirmPaymentAction()"
+>
+
+📲 تأكيد طريقة الدفع ومراسلة الدعم
+
+</button>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+لوحة العميل
+========================= -->
+
+<section id="dashboard" class="page">
+
+<div class="section-title">
+
+<h2>📊 لوحة بياناتي</h2>
+
+<p id="dashboardWelcome">
+مرحبًا بك
+</p>
+
+</div>
+
+<div class="card meta-card" style="margin-bottom:20px">
+<h3>🔗 ربط حسابي بسَوِّق</h3>
+<span class="meta-status" id="metaStatus">غير مربوط</span>
+<p>اربط حسابك الإعلاني على Meta ليساعدك سَوِّق في تجهيز الحملات. يتم الربط عبر تسجيل الدخول الرسمي من Meta، ولن نطلب منك كلمة مرور Facebook أبدًا.</p>
+<button class="btn btn-primary" onclick="connectMetaPlaceholder()">🔗 ربط حسابي بسَوِّق</button>
+<div class="meta-note" id="metaNote"></div>
+</div>
+<div class="card" style="margin-bottom:20px">
+<h3>🧭 رحلتك مع سَوِّق</h3>
+<div class="journey">
+<div class="journey-step" onclick="connectMetaPlaceholder()"><b>1</b>ربط حساب Meta</div>
+<div class="journey-step" onclick="navigate('analysis')"><b>2</b>تحليل النشاط</div>
+<div class="journey-step" onclick="navigate('packages')"><b>3</b>اختيار الباقة</div>
+<div class="journey-step" onclick="navigate('payments')"><b>4</b>الدفع</div>
+<div class="journey-step" onclick="navigate('campaign')"><b>5</b>تجهيز الحملة ومتابعتها</div>
+</div>
+</div>
+<div class="dashboard-top">
+
+<div class="stat">
+<small>عدد الحملات</small>
+<strong id="statOrders">0</strong>
+</div>
+
+<div class="stat">
+<small>ميزانية الإعلانات</small>
+<strong id="statBudget">$0</strong>
+</div>
+
+<div class="stat">
+<small>عمولة سَوِّق</small>
+<strong id="statFees">$0</strong>
+</div>
+
+<div class="stat">
+<small>الإجمالي</small>
+<strong id="statTotal">$0</strong>
+</div>
+
+</div>
+
+<div
+class="card"
+style="margin-bottom:20px"
+>
+
+<h3>👤 بيانات الحساب</h3>
+
+<div
+id="profileInfo"
+style="margin-top:10px"
+></div>
+
+</div>
+
+<div class="section-title">
+<h2>سجل الحملات</h2>
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>رقم الطلب</th>
+<th>النشاط</th>
+<th>الدولة</th>
+<th>الباقة</th>
+<th>الميزانية</th>
+<th>العمولة</th>
+<th>الإجمالي</th>
+<th>الحالة</th>
+
+</tr>
+
+</thead>
+
+<tbody id="ordersTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+المساعد
+========================= -->
+
+<section id="assistant" class="page">
+
+<div class="section-title">
+
+<h2>💬 المساعد الذكي</h2>
+
+<p>مساعد سَوِّق التسويقي</p>
+
+</div>
+
+<div class="ai-box">
+
+<div class="ai-head">
+
+<h3>🤖 مساعد سَوِّق</h3>
+
+<p>
+اسألني عن الحملات والتسويق والباقات أو أعطني تفاصيل منتجك.
+</p>
+
+</div>
+
+<div
+class="ai-messages"
+id="aiMessages"
+>
+
+<div class="msg ai">
+
+أهلًا بك 👋<br>
+
+أنا مساعد سَوِّق الذكي.<br>
+
+أقدر أساعدك في تحليل المنتج، الجمهور، الدولة،
+الميزانية، الإعلانات والأفكار التسويقية.
+
+</div>
+
+</div>
+
+<div class="ai-input">
+
+<input
+id="aiQuestion"
+placeholder="اكتب سؤالك هنا..."
+onkeydown="if(event.key==='Enter')sendAI()"
+>
+
+<button
+class="btn btn-primary"
+onclick="sendAI()"
+>
+
+إرسال
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+الإدارة
+========================= -->
+
+<section id="admin" class="page">
+
+<div class="admin-box">
+
+<h2>⚙️ لوحة إدارة سَوِّق</h2>
+
+<p>لوحة اختبار محلية لمتابعة الطلبات.</p>
+
+</div>
+
+<div class="dashboard-top">
+
+<div class="stat">
+<small>كل الطلبات</small>
+<strong id="adminOrders">0</strong>
+</div>
+
+<div class="stat">
+<small>بانتظار الدفع</small>
+<strong id="adminPending">0</strong>
+</div>
+
+<div class="stat">
+<small>ميزانيات الإعلانات</small>
+<strong id="adminBudget">$0</strong>
+</div>
+
+<div class="stat">
+<small>العمولات</small>
+<strong id="adminFees">$0</strong>
+</div>
+
+</div>
+
+<div
+class="card"
+style="margin-bottom:20px"
+>
+
+<div class="row">
+
+<div>
+
+<label>فلترة الحالة</label>
+
+<select
+id="adminFilter"
+onchange="renderAdmin()"
+>
+
+<option value="all">
+كل الطلبات
+</option>
+
+<option value="في انتظار الدفع 💳">
+في انتظار الدفع
+</option>
+
+<option value="في انتظار تأكيد التحويل عبر الواتساب 📞">
+في انتظار التأكيد
+</option>
+
+<option value="تم تأكيد الدفع ✅">
+تم تأكيد الدفع
+</option>
+
+<option value="جاري التنفيذ 🚀">
+جاري التنفيذ
+</option>
+
+<option value="تم الانتهاء 🎉">
+تم الانتهاء
+</option>
+
+</select>
+
+</div>
+
+<div
+style="display:flex;align-items:end"
+>
+
+<button
+class="btn btn-danger"
+style="width:100%"
+onclick="clearAllOrders()"
+>
+
+مسح بيانات الاختبار
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>رقم</th>
+<th>العميل</th>
+<th>النشاط</th>
+<th>الدولة</th>
+<th>الباقة</th>
+<th>الميزانية</th>
+<th>العمولة</th>
+<th>الإجمالي</th>
+<th>الدفع</th>
+<th>الحالة</th>
+<th>إجراء</th>
+
+</tr>
+
+</thead>
+
+<tbody id="adminTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<section id="about" class="page">
+<div class="info-page card">
+<h2>من نحن</h2>
+<p class="info-updated">آخر تحديث: أكتوبر 2026</p>
+<h3>سَوِّق | SAWWIQ AI</h3>
+<p>منصة تسويق وإعلانات ذكية للشرق الأوسط، تساعد أصحاب المشاريع والمتاجر على تحليل نشاطهم وتجهيز حملاتهم الإعلانية على Meta (Facebook وInstagram) باستخدام الذكاء الاصطناعي.</p>
+<h3>ماذا نقدم</h3>
+<ul><li>تحليل ذكي للنشاط والمنتج والجمهور والسوق.</li><li>اقتراح خطة تسويقية وأفكار وعناوين ونصوص إعلانية.</li><li>تجهيز الحملة ومتابعتها عبر حسابك الإعلاني على Meta.</li></ul>
+<h3>كيف نعمل</h3>
+<ul><li>الإعلانات تُدار من حسابك الإعلاني أنت.</li><li>ميزانية الإعلان تدفعها أنت إلى Meta مباشرة، ولا نستلمها ولا نمسكها.</li><li>تدفع لسَوِّق رسوم الباقة والعمولة بشكل منفصل.</li><li>لا نطلب كلمة مرور Facebook أبدًا.</li></ul>
+<h3>ما لا نعد به</h3>
+<p>لا نضمن مبيعات أو نتائج محددة، فأداء الإعلانات يعتمد على المنتج والسوق وسياسات المنصات.</p>
+<h3>تواصل معنا</h3>
+<p><a href="https://wa.me/201114858309" target="_blank" rel="noopener">راسلنا عبر واتساب</a></p>
+</div>
+</section>
+<section id="privacy" class="page">
+<div class="info-page card">
+<h2>سياسة الخصوصية</h2>
+<p class="info-updated">آخر تحديث: أكتوبر 2026</p>
+<h3>1. البيانات التي نجمعها</h3>
+<ul><li>بيانات الحساب: الاسم والبريد والهاتف والدولة.</li><li>بيانات النشاط والمنتج والميزانية التي تدخلها.</li><li>بيانات الطلبات والباقات وطريقة الدفع وحالة الطلب.</li><li>عند تفعيل ربط Meta: بيانات الحسابات الإعلانية والصفحات التي توافق على مشاركتها معنا.</li></ul>
+<h3>2. كيف نستخدمها</h3>
+<p>لتشغيل الخدمة وتحليل نشاطك وتجهيز الحملات وتأكيد الطلبات والتواصل معك وتحسين المنصة.</p>
+<h3>3. الذكاء الاصطناعي</h3>
+<p>النصوص التي تدخلها في التحليل والمساعد تُرسل إلى مزوّد خدمة ذكاء اصطناعي لمعالجتها وإرجاع النتيجة. لا تُدخل كلمات مرور أو بيانات بطاقات.</p>
+<h3>4. ربط Meta</h3>
+<p>يتم الربط عبر تسجيل الدخول الرسمي من Meta، ولا نطلب كلمة مرورك ولا نحفظها. رموز الوصول تُحفظ على الخادم فقط ولا تظهر في الواجهة. يمكنك إلغاء الربط في أي وقت من إعدادات حسابك في Meta.</p>
+<h3>5. المشاركة</h3>
+<p>لا نبيع بياناتك. نشاركها فقط مع مزودي الخدمة اللازمين لتشغيل المنصة (الاستضافة والذكاء الاصطناعي وMeta بموافقتك) أو عند وجود التزام قانوني.</p>
+<h3>6. حماية البيانات</h3>
+<p>نتخذ إجراءات معقولة لحماية بياناتك، ولا يوجد نظام آمن بنسبة 100%.</p>
+<h3>7. حذف بياناتك</h3>
+<p>يمكنك طلب حذف حسابك وبياناتك في أي وقت عبر <a href="https://wa.me/201114858309" target="_blank" rel="noopener">واتساب</a> مع ذكر البريد المسجل. قد نحتفظ بما يلزم قانونيًا فقط.</p>
+<h3>8. التعديلات</h3>
+<p>قد نحدّث هذه السياسة، وتظهر آخر نسخة في هذه الصفحة.</p>
+</div>
+</section>
+<section id="terms" class="page">
+<div class="info-page card">
+<h2>الشروط والأحكام</h2>
+<p class="info-updated">آخر تحديث: أكتوبر 2026</p>
+<h3>1. الخدمة</h3>
+<p>سَوِّق منصة تساعد بالذكاء الاصطناعي في تحليل وتجهيز الحملات الإعلانية على Meta.</p>
+<h3>2. حسابك</h3>
+<p>أنت مسؤول عن صحة البيانات التي تدخلها وعن سرية حسابك.</p>
+<h3>3. ميزانية الإعلان</h3>
+<p>تُدفع لـ Meta مباشرة من حسابك الإعلاني، ولا تمر عبر سَوِّق.</p>
+<h3>4. رسوم سَوِّق</h3>
+<p>رسوم الباقة والعمولة حسب الباقات المعروضة، وتُدفع لسَوِّق بشكل منفصل بإحدى طرق الدفع المتاحة.</p>
+<h3>5. الطلبات</h3>
+<p>عند اختيار الباقة يُسجَّل طلب برقم خاص، وتتحدث حالته حتى تأكيد الدفع وتفعيل الخدمة.</p>
+<h3>6. المنتجات والإعلانات</h3>
+<p>أنت مسؤول عن قانونية منتجك وصحة ما تعلن عنه والتزام إعلاناتك بسياسات Meta. قد ترفض Meta إعلانات أو تقيّد حسابات، ولا نتحكم في ذلك.</p>
+<h3>7. لا ضمان للنتائج</h3>
+<p>توصيات الذكاء الاصطناعي إرشادية وتحتاج مراجعتك، ولا نضمن مبيعات أو نتائج محددة.</p>
+<h3>8. إيقاف الخدمة</h3>
+<p>يحق لسَوِّق رفض أو إيقاف أي طلب يخالف هذه الشروط أو سياسات Meta.</p>
+<h3>9. حدود المسؤولية</h3>
+<p>بالقدر الذي يسمح به القانون، لا نتحمل خسائر ناتجة عن أداء الإعلانات أو قرارات المنصات الخارجية.</p>
+<h3>10. التعديلات والتواصل</h3>
+<p>قد نعدّل هذه الشروط، والاستمرار في الاستخدام يعني الموافقة عليها. للتواصل: <a href="https://wa.me/201114858309" target="_blank" rel="noopener">واتساب</a>.</p>
+</div>
+</section>
+<section id="refund" class="page">
+<div class="info-page card">
+<h2>سياسة الاسترجاع</h2>
+<p class="info-updated">آخر تحديث: أكتوبر 2026</p>
+<h3>ميزانية الإعلان</h3>
+<p>تُدفع لـ Meta وتخضع لسياساتها، ولا نستطيع استرجاعها أو التحكم فيها.</p>
+<h3>رسوم سَوِّق (الباقة والعمولة)</h3>
+<ul><li>قبل بدء تجهيز حملتك: يمكنك طلب استرجاع الرسوم.</li><li>بعد بدء التجهيز: لا تُسترجع الرسوم عن العمل المنفّذ فعليًا، ويُدرس كل طلب حسب حالته.</li></ul>
+<h3>ما لا يشمله الاسترجاع</h3>
+<p>لا يتم الاسترجاع بسبب أداء الإعلانات أو حجم المبيعات، لأننا لا نضمن نتائج محددة.</p>
+<h3>كيف تطلب الاسترجاع</h3>
+<p>تواصل معنا عبر <a href="https://wa.me/201114858309" target="_blank" rel="noopener">واتساب</a> مع ذكر رقم الطلب، ويتم الرد بالنتيجة، ويكون الاسترجاع بنفس وسيلة الدفع قدر الإمكان.</p>
+</div>
+</section>
+</main>
+
+
+<footer>
+<div class="footer-links">
+<a onclick="openInfo('about')">من نحن</a>
+<a onclick="openInfo('privacy')">سياسة الخصوصية</a>
+<a onclick="openInfo('terms')">الشروط والأحكام</a>
+<a onclick="openInfo('refund')">سياسة الاسترجاع</a>
+</div>
+<p>© 2026 سَوِّق | SAWWIQ AI</p>
+
+<p>
+منصة تسويق وإعلانات ذكية للشرق الأوسط
+</p>
+
+</footer>
+
+
+<a
+class="whatsapp"
+href="https://wa.me/201114858309"
+target="_blank"
+>
+☎
+</a>
+
+
+<!-- =========================
+نافذة الحساب
+========================= -->
+
+<div
+class="modal"
+id="authModal"
+>
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="closeAuthModal()"
+>
+×
+</button>
+
+<h2 style="margin-bottom:5px">
+👤 إنشاء حساب
+</h2>
+
+<p
+style="color:#64748b;margin-bottom:20px"
+>
+أدخل بياناتك الأساسية للمتابعة.
+</p>
+
+<div class="form-group">
+
+<label>الاسم</label>
+
+<input
+id="authNameInput"
+placeholder="الاسم الكامل"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>البريد الإلكتروني</label>
+
+<input
+id="authEmailInput"
+type="email"
+placeholder="example@email.com"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>رقم الهاتف</label>
+
+<input
+id="authPhoneInput"
+placeholder="رقم الهاتف"
+>
+
+</div>
+
+<div class="form-group">
+
+<label>الدولة</label>
+
+<select id="authCountryInput">
+
+<option value="">اختر الدولة</option>
+<option>ليبيا</option>
+<option>مصر</option>
+<option>الأردن</option>
+<option>السعودية</option>
+<option>الإمارات</option>
+<option>الكويت</option>
+<option>قطر</option>
+<option>البحرين</option>
+<option>عمان</option>
+<option>العراق</option>
+<option>تونس</option>
+<option>الجزائر</option>
+<option>المغرب</option>
+
+</select>
+
+</div>
+
+<button
+class="btn btn-primary"
+style="width:100%"
+onclick="handleLogin()"
+>
+
+إنشاء الحساب والمتابعة
+
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+let currentUser =
+JSON.parse(localStorage.getItem("sawwiq_user")) || null;
+
+let userOrders =
+JSON.parse(localStorage.getItem("sawwiq_orders")) || [];
+
+let selectedPayment =
+localStorage.getItem("sawwiq_payment") ||
+"لم يتم تحديد طريقة دفع بعد";
+
+
+const PACKAGE_DATA = {
+
+starter:{
+name:"البداية",
+fee:20,
+min:50,
+max:90
+},
+
+growth:{
+name:"النمو",
+fee:15,
+min:100,
+max:400
+},
+
+pro:{
+name:"الاحتراف",
+fee:10,
+min:500,
+max:1000
+}
+
+};
+
+
+function escapeHTML(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function navigate(page){
+if(INFO_PAGES.indexOf(page)===-1&&location.hash){history.replaceState(null,"",location.pathname+location.search);}
+
+document.querySelectorAll(".page")
+.forEach(function(p){
+
+p.classList.remove("active");
+
+});
+
+const target =
+document.getElementById(page);
+
+if(target){
+
+target.classList.add("active");
+
+}
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+if(page === "dashboard"){
+
+renderDashboard();
+
+}
+
+if(page === "payments"){
+
+renderPaymentDetails();
+
+}
+
+if(page === "admin"){
+
+renderAdmin();
+
+}
+
+}
+
+
+function openAuthModal(){
+
+const modal =
+document.getElementById("authModal");
+
+if(modal){
+
+modal.classList.add("show");
+
+}
+
+}
+
+
+function closeAuthModal(){
+
+const modal =
+document.getElementById("authModal");
+
+if(modal){
+
+modal.classList.remove("show");
+
+}
+
+}
+
+
+function handleLogin(){
+
+const name =
+document.getElementById("authNameInput")
+.value.trim();
+
+const email =
+document.getElementById("authEmailInput")
+.value.trim();
+
+const phone =
+document.getElementById("authPhoneInput")
+.value.trim();
+
+const country =
+document.getElementById("authCountryInput")
+.value;
+
+if(!name || !email || !phone || !country){
+
+alert(
+"الرجاء تعبئة جميع البيانات المطلوبة."
+);
+
+return;
+
+}
+
+currentUser = {
+
+name:name,
+email:email,
+phone:phone,
+country:country,
+userId:"USER-" + Date.now()
+
+};
+
+localStorage.setItem(
+"sawwiq_user",
+JSON.stringify(currentUser)
+);
+
+closeAuthModal();
+
+updateAuthUI();
+
+alert(
+"تم إنشاء الحساب بنجاح ✅"
+);
+
+navigate("dashboard");
+
+}
+
+
+function updateAuthUI(){
+
+const button =
+document.getElementById("authButton");
+
+if(!button)return;
+
+button.textContent =
+currentUser
+? "👤 حسابي"
+: "تسجيل / دخول";
+
+}
+
+
+function getPackageData(){
+
+const select =
+document.getElementById("aiCampPackage");
+
+if(!select){
+
+return PACKAGE_DATA.starter;
+
+}
+
+return PACKAGE_DATA[select.value] ||
+PACKAGE_DATA.starter;
+
+}
+
+
+function calculateCosts(){
+
+const budget =
+parseFloat(
+document.getElementById("aiCampBudget").value
+) || 0;
+
+const pkg =
+getPackageData();
+
+const fee =
+budget * pkg.fee / 100;
+
+return {
+
+budget:budget,
+fee:fee,
+total:budget + fee,
+percentage:pkg.fee,
+packageName:pkg.name
+
+};
+
+}
+
+
+function updateCampaignCost(){
+
+const box =
+document.getElementById("campaignCost");
+
+if(!box)return;
+
+const data =
+calculateCosts();
+
+const pkg =
+getPackageData();
+
+if(data.budget <= 0){
+
+box.innerHTML =
+"أدخل الميزانية لحساب عمولة سَوِّق والإجمالي.";
+
+return;
+
+}
+
+let rangeNotice = "";
+
+if(
+data.budget < pkg.min ||
+data.budget > pkg.max
+){
+
+rangeNotice = `
+
+<br>
+
+<span style="color:#dc2626">
+
+ميزانية هذه الباقة من
+$${pkg.min}
+إلى
+$${pkg.max}.
+
+</span>
+
+`;
+
+}
+
+box.innerHTML = `
+
+<strong>تفاصيل التكلفة:</strong><br>
+
+ميزانية الإعلان:
+<strong>
+$${data.budget.toFixed(2)}
+</strong>
+
+<br>
+
+عمولة سَوِّق (${data.percentage}%):
+<strong>
+$${data.fee.toFixed(2)}
+</strong>
+
+<br>
+
+الإجمالي:
+<strong style="color:#15803d">
+$${data.total.toFixed(2)}
+</strong>
+
+${rangeNotice}
+
+`;
+
+}
+
+
+function launchAICampaign(){
+
+if(!currentUser){
+
+alert(
+"يرجى إنشاء حساب أولًا."
+);
+
+openAuthModal();
+
+return;
+
+}
+
+const name =
+document.getElementById("aiCampName")
+.value.trim();
+
+const url =
+document.getElementById("aiCampUrl")
+.value.trim();
+
+const budget =
+parseFloat(
+document.getElementById("aiCampBudget")
+.value
+);
+
+const country =
+document.getElementById("aiCampCountry")
+.value;
+
+const packageKey =
+document.getElementById("aiCampPackage")
+.value;
+
+if(
+!name ||
+!url ||
+!budget ||
+!country
+){
+
+alert(
+"الرجاء تعبئة جميع بيانات الحملة."
+);
+
+return;
+
+}
+
+const pkg =
+PACKAGE_DATA[packageKey];
+
+if(
+budget < pkg.min ||
+budget > pkg.max
+){
+
+alert(
+"ميزانية باقة " +
+pkg.name +
+"\nيجب أن تكون بين $" +
+pkg.min +
+" و $" +
+pkg.max +
+"."
+);
+
+return;
+
+}
+
+const fee =
+budget * pkg.fee / 100;
+
+const total =
+budget + fee;
+
+const order = {
+
+id:
+Math.floor(Math.random() * 900000) + 100000,
+
+userId:
+currentUser.userId,
+
+customer:
+currentUser.name,
+
+email:
+currentUser.email,
+
+phone:
+currentUser.phone,
+
+name:name,
+
+url:url,
+
+budget:budget,
+
+fee:fee,
+
+total:total,
+
+country:country,
+
+package:pkg.name,
+
+percentage:pkg.fee,
+
+payment:"لم يتم تحديد طريقة دفع بعد",
+
+date:new Date().toLocaleString("ar-EG"),
+
+status:"في انتظار الدفع 💳"
+
+};
+
+userOrders.push(order);
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+alert(
+
+"تم إنشاء الطلب بنجاح ✅\n\n" +
+
+"رقم الطلب: #" +
+order.id +
+
+"\n\n" +
+
+"ميزانية الإعلان:\n$" +
+budget.toFixed(2) +
+
+"\n\n" +
+
+"عمولة سَوِّق:\n$" +
+fee.toFixed(2) +
+
+"\n\n" +
+
+"الإجمالي:\n$" +
+total.toFixed(2)
+
+);
+
+navigate("payments");
+
+renderPaymentDetails();
+
+}
+
+
+function choosePackage(packageKey){
+
+const select =
+document.getElementById("aiCampPackage");
+
+if(select){
+
+select.value =
+packageKey;
+
+}
+
+navigate("campaign");
+
+updateCampaignCost();
+
+}
+
+
+function selectPaymentMethod(methodName){
+
+selectedPayment =
+methodName;
+
+localStorage.setItem(
+"sawwiq_payment",
+selectedPayment
+);
+
+document.querySelectorAll(".payment")
+.forEach(function(p){
+
+p.classList.remove("selected");
+
+});
+
+if(methodName === "Binance Pay"){
+
+document.getElementById("pay-binance")
+.classList.add("selected");
+
+}
+
+if(methodName === "USDT TRC20"){
+
+document.getElementById("pay-usdt")
+.classList.add("selected");
+
+}
+
+if(methodName.includes("مصر")){
+
+document.getElementById("pay-vodafone")
+.classList.add("selected");
+
+}
+
+if(methodName.includes("الأردن")){
+
+document.getElementById("pay-jordan")
+.classList.add("selected");
+
+}
+
+const order =
+getLastOrder();
+
+if(order){
+
+order.payment =
+methodName;
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+}
+
+renderPaymentDetails();
+
+}
+
+
+function getLastOrder(){
+
+if(!currentUser){
+
+return null;
+
+}
+
+const orders =
+userOrders.filter(function(o){
+
+return (
+
+(o.userId &&
+currentUser.userId &&
+o.userId === currentUser.userId)
+
+||
+
+(
+!o.userId &&
+o.customer === currentUser.name
+)
+
+);
+
+});
+
+return orders.length
+? orders[orders.length - 1]
+: null;
+
+}
+
+
+function renderPaymentDetails(){
+
+const box =
+document.getElementById(
+"paymentOrderDetails"
+);
+
+if(!box)return;
+
+const order =
+getLastOrder();
+
+if(!order){
+
+box.innerHTML =
+"لا توجد حملة قيد الدفع حاليًا.";
+
+return;
+
+}
+
+box.innerHTML = `
+
+<strong>آخر طلب:</strong>
+
+<div>
+🧾 رقم الطلب:
+<strong>#${order.id}</strong>
+</div>
+
+<div>
+🏪 النشاط:
+${escapeHTML(order.name)}
+</div>
+
+<div>
+🌍 الدولة:
+${escapeHTML(order.country)}
+</div>
+
+<div>
+📦 الباقة:
+${escapeHTML(order.package)}
+</div>
+
+<div>
+💰 ميزانية الإعلان:
+<strong>
+$${Number(order.budget).toFixed(2)}
+</strong>
+</div>
+
+<div>
+📈 عمولة سَوِّق:
+<strong>
+$${Number(order.fee).toFixed(2)}
+</strong>
+(${order.percentage}%)
+</div>
+
+<div>
+💵 الإجمالي:
+<strong>
+$${Number(order.total).toFixed(2)}
+</strong>
+</div>
+
+<div>
+💳 طريقة الدفع:
+<strong>
+${escapeHTML(order.payment)}
+</strong>
+</div>
+
+<div>
+📌 الحالة:
+<strong>
+${escapeHTML(order.status)}
+</strong>
+</div>
+
+`;
+
+}
+
+
+function confirmPaymentAction(){
+
+if(!currentUser){
+
+alert(
+"يرجى تسجيل الدخول أولًا."
+);
+
+openAuthModal();
+
+return;
+
+}
+
+const order =
+getLastOrder();
+
+if(!order){
+
+alert(
+"لا توجد حملة مرتبطة بهذا الحساب."
+);
+
+return;
+
+}
+
+if(
+selectedPayment ===
+"لم يتم تحديد طريقة دفع بعد"
+){
+
+alert(
+"اختر طريقة الدفع أولًا."
+);
+
+return;
+
+}
+
+order.payment =
+selectedPayment;
+
+order.status =
+"في انتظار تأكيد التحويل عبر الواتساب 📞";
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+const message =
+
+"مرحباً فريق سَوِّق 👋\n\n" +
+
+"أريد تأكيد طلب حملتي الإعلانية.\n\n" +
+
+"👤 العميل:\n" +
+currentUser.name +
+
+"\n\n📧 البريد:\n" +
+currentUser.email +
+
+"\n\n📱 الهاتف:\n" +
+currentUser.phone +
+
+"\n\n🏪 النشاط:\n" +
+order.name +
+
+"\n\n🔗 رابط المنتج:\n" +
+order.url +
+
+"\n\n🌍 الدولة:\n" +
+order.country +
+
+"\n\n📦 الباقة:\n" +
+order.package +
+
+"\n\n💰 ميزانية الإعلان:\n$" +
+Number(order.budget).toFixed(2) +
+
+"\n\n📈 عمولة سَوِّق:\n$" +
+Number(order.fee).toFixed(2) +
+" (" +
+order.percentage +
+"%)" +
+
+"\n\n💵 الإجمالي:\n$" +
+Number(order.total).toFixed(2) +
+
+"\n\n💳 طريقة الدفع:\n" +
+order.payment +
+
+"\n\n🧾 رقم الطلب:\n#" +
+order.id +
+
+"\n\nأرجو إرسال تفاصيل الدفع وتأكيد الطلب.";
+
+window.open(
+"https://wa.me/201114858309?text=" +
+encodeURIComponent(message),
+"_blank"
+);
+
+navigate("dashboard");
+
+}
+
+
+function renderDashboard(){
+
+if(!currentUser){
+
+document.getElementById(
+"dashboardWelcome"
+).textContent =
+"يرجى تسجيل الدخول أولًا.";
+
+document.getElementById(
+"profileInfo"
+).innerHTML = `
+
+<div class="empty">
+
+قم بتسجيل الدخول أو إنشاء حساب
+لعرض بياناتك.
+
+</div>
+
+`;
+
+document.getElementById(
+"ordersTable"
+).innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+<div class="empty">
+لا توجد بيانات حتى الآن.
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+document.getElementById(
+"dashboardWelcome"
+).textContent =
+"مرحبًا بك في حسابك";
+
+document.getElementById(
+"profileInfo"
+).innerHTML = `
+
+<div>
+👤 الاسم:
+${escapeHTML(currentUser.name)}
+</div>
+
+<div>
+📧 البريد:
+${escapeHTML(currentUser.email)}
+</div>
+
+<div>
+📱 الهاتف:
+${escapeHTML(currentUser.phone)}
+</div>
+
+<div>
+🌍 الدولة:
+${escapeHTML(currentUser.country)}
+</div>
+
+`;
+
+const orders =
+userOrders.filter(function(o){
+
+return (
+
+(o.userId &&
+currentUser.userId &&
+o.userId === currentUser.userId)
+
+||
+
+(
+!o.userId &&
+o.customer === currentUser.name
+)
+
+);
+
+});
+
+let budget = 0;
+let fees = 0;
+let total = 0;
+
+orders.forEach(function(o){
+
+budget +=
+Number(o.budget) || 0;
+
+fees +=
+Number(o.fee) || 0;
+
+total +=
+Number(o.total) || 0;
+
+});
+
+document.getElementById(
+"statOrders"
+).textContent =
+orders.length;
+
+document.getElementById(
+"statBudget"
+).textContent =
+"$" + budget.toFixed(2);
+
+document.getElementById(
+"statFees"
+).textContent =
+"$" + fees.toFixed(2);
+
+document.getElementById(
+"statTotal"
+).textContent =
+"$" + total.toFixed(2);
+
+const tbody =
+document.getElementById("ordersTable");
+
+if(!orders.length){
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="8">
+
+<div class="empty">
+لا توجد حملات حتى الآن.
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+tbody.innerHTML =
+orders.map(function(o){
+
+return `
+
+<tr>
+
+<td>#${o.id}</td>
+
+<td>
+${escapeHTML(o.name)}
+</td>
+
+<td>
+${escapeHTML(o.country)}
+</td>
+
+<td>
+${escapeHTML(o.package)}
+(${o.percentage}%)
+</td>
+
+<td>
+$${Number(o.budget).toFixed(2)}
+</td>
+
+<td>
+$${Number(o.fee).toFixed(2)}
+</td>
+
+<td>
+<strong>
+$${Number(o.total).toFixed(2)}
+</strong>
+</td>
+
+<td>
+
+<span class="badge">
+${escapeHTML(o.status)}
+</span>
+
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+
+function openAdmin(){
+
+const code =
+prompt(
+"أدخل رمز لوحة الإدارة للاختبار:"
+);
+
+if(code !== "SAWWIQ-ADMIN"){
+
+alert(
+"رمز الإدارة غير صحيح."
+);
+
+return;
+
+}
+
+navigate("admin");
+
+}
+
+
+function renderAdmin(){
+
+const filter =
+document.getElementById(
+"adminFilter"
+)?.value || "all";
+
+let orders =
+[...userOrders];
+
+if(filter !== "all"){
+
+orders =
+orders.filter(function(o){
+
+return o.status === filter;
+
+});
+
+}
+
+let allBudget = 0;
+let allFees = 0;
+let pending = 0;
+
+userOrders.forEach(function(o){
+
+allBudget +=
+Number(o.budget) || 0;
+
+allFees +=
+Number(o.fee) || 0;
+
+if(
+o.status === "في انتظار الدفع 💳" ||
+o.status ===
+"في انتظار تأكيد التحويل عبر الواتساب 📞"
+){
+
+pending++;
+
+}
+
+});
+
+document.getElementById(
+"adminOrders"
+).textContent =
+userOrders.length;
+
+document.getElementById(
+"adminPending"
+).textContent =
+pending;
+
+document.getElementById(
+"adminBudget"
+).textContent =
+"$" + allBudget.toFixed(2);
+
+document.getElementById(
+"adminFees"
+).textContent =
+"$" + allFees.toFixed(2);
+
+const tbody =
+document.getElementById(
+"adminTable"
+);
+
+if(!tbody)return;
+
+if(!orders.length){
+
+tbody.innerHTML = `
+
+<tr>
+
+<td colspan="11">
+
+<div class="empty">
+لا توجد طلبات.
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+return;
+
+}
+
+tbody.innerHTML =
+orders.map(function(o){
+
+return `
+
+<tr>
+
+<td>#${o.id}</td>
+
+<td>
+${escapeHTML(o.customer)}
+</td>
+
+<td>
+${escapeHTML(o.name)}
+</td>
+
+<td>
+${escapeHTML(o.country)}
+</td>
+
+<td>
+${escapeHTML(o.package)}
+(${o.percentage}%)
+</td>
+
+<td>
+$${Number(o.budget).toFixed(2)}
+</td>
+
+<td>
+$${Number(o.fee).toFixed(2)}
+</td>
+
+<td>
+$${Number(o.total).toFixed(2)}
+</td>
+
+<td>
+${escapeHTML(o.payment)}
+</td>
+
+<td>
+
+<span class="badge">
+${escapeHTML(o.status)}
+</span>
+
+</td>
+
+<td>
+
+<select
+class="status-select"
+onchange="changeOrderStatus(${o.id},this.value)"
+>
+
+<option value="">
+تغيير الحالة
+</option>
+
+<option
+value="في انتظار الدفع 💳"
+${o.status === "في انتظار الدفع 💳" ? "selected" : ""}
+>
+في انتظار الدفع
+</option>
+
+<option
+value="في انتظار تأكيد التحويل عبر الواتساب 📞"
+${o.status === "في انتظار تأكيد التحويل عبر الواتساب 📞" ? "selected" : ""}
+>
+في انتظار التأكيد
+</option>
+
+<option
+value="تم تأكيد الدفع ✅"
+${o.status === "تم تأكيد الدفع ✅" ? "selected" : ""}
+>
+تم تأكيد الدفع
+</option>
+
+<option
+value="جاري التنفيذ 🚀"
+${o.status === "جاري التنفيذ 🚀" ? "selected" : ""}
+>
+جاري التنفيذ
+</option>
+
+<option
+value="تم الانتهاء 🎉"
+${o.status === "تم الانتهاء 🎉" ? "selected" : ""}
+>
+تم الانتهاء
+</option>
+
+</select>
+
+<button
+class="btn btn-danger btn-small"
+onclick="deleteOrder(${o.id})"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+
+function changeOrderStatus(
+orderId,
+newStatus
+){
+
+if(!newStatus)return;
+
+const order =
+userOrders.find(function(o){
+
+return Number(o.id) ===
+Number(orderId);
+
+});
+
+if(!order)return;
+
+order.status =
+newStatus;
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+renderAdmin();
+
+alert(
+"تم تحديث حالة الطلب ✅"
+);
+
+}
+
+
+function deleteOrder(orderId){
+
+const order =
+userOrders.find(function(o){
+
+return Number(o.id) ===
+Number(orderId);
+
+});
+
+if(!order)return;
+
+const ok =
+confirm(
+"هل تريد حذف الطلب #" +
+order.id +
+"؟"
+);
+
+if(!ok)return;
+
+userOrders =
+userOrders.filter(function(o){
+
+return Number(o.id) !==
+Number(orderId);
+
+});
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+renderAdmin();
+
+}
+
+
+function clearAllOrders(){
+
+if(!userOrders.length){
+
+alert(
+"لا توجد بيانات لمسحها."
+);
+
+return;
+
+}
+
+const ok =
+confirm(
+"هل أنت متأكد من مسح جميع طلبات الاختبار؟"
+);
+
+if(!ok)return;
+
+userOrders = [];
+
+localStorage.setItem(
+"sawwiq_orders",
+JSON.stringify(userOrders)
+);
+
+renderAdmin();
+
+alert(
+"تم مسح بيانات الاختبار ✅"
+);
+
+}
+
+
+/* =========================
+المساعد الذكي
+========================= */
+
+function addAIMessage(
+text,
+type
+){
+
+const box =
+document.getElementById(
+"aiMessages"
+);
+
+if(!box)return;
+
+const div =
+document.createElement("div");
+
+div.className =
+"msg " + type;
+
+div.innerHTML =
+escapeHTML(text)
+.replace(/\n/g,"<br>");
+
+box.appendChild(div);
+
+box.scrollTop =
+box.scrollHeight;
+
+}
+
+
+async function sendAI(){
+
+const input =
+document.getElementById(
+"aiQuestion"
+);
+
+if(!input)return;
+
+const question =
+input.value.trim();
+
+if(!question)return;
+
+addAIMessage(
+question,
+"user"
+);
+
+input.value = "";
+
+const box =
+document.getElementById(
+"aiMessages"
+);
+
+const loadingId =
+"ai-loading-" + Date.now();
+
+if(box){
+
+const loading =
+document.createElement("div");
+
+loading.className =
+"msg ai";
+
+loading.id =
+loadingId;
+
+loading.innerHTML =
+"🤖 جاري تحليل طلبك...";
+
+box.appendChild(loading);
+
+box.scrollTop =
+box.scrollHeight;
+
+}
+
+try{
+
+const response =
+await fetch(
+"https://sawwiq-ai.onrender.com/api/ai",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+message:
+
+`أنت مساعد سَوِّق SAWWIQ AI التسويقي.
+
+أنت مستشار تسويق ذكي داخل منصة سَوِّق.
+
+مهمتك مساعدة أصحاب المشاريع والمتاجر في الشرق الأوسط
+على فهم التسويق والإعلانات واتخاذ قرارات أفضل.
+
+يمكنك مساعدة العميل في:
+
+- تحليل المنتج أو النشاط.
+- تحليل الجمهور المستهدف.
+- اقتراح الدولة أو السوق المناسب.
+- اقتراح أفضل منصة إعلانية.
+- اقتراح ميزانية مناسبة.
+- اقتراح استراتيجية تسويقية.
+- كتابة نصوص إعلانية قوية.
+- كتابة عناوين ووصف للإعلانات.
+- اقتراح أفكار فيديوهات دعائية.
+- اقتراح عروض تسويقية.
+- تحسين وصف المنتج.
+- اقتراح أفكار منشورات.
+- تقديم أفكار للحملات.
+- شرح طريقة عمل سَوِّق.
+- شرح الباقات والأسعار.
+- الإجابة عن أسئلة الدفع.
+
+باقات سَوِّق الحالية:
+
+🥉 البداية:
+ميزانية الإعلان من $50 إلى $90.
+عمولة سَوِّق 20%.
+
+🥈 النمو:
+ميزانية الإعلان من $100 إلى $400.
+عمولة سَوِّق 15%.
+
+🥇 الاحتراف:
+ميزانية الإعلان من $500 إلى $1000.
+عمولة سَوِّق 10%.
+
+مهم جدًا:
+ميزانية الإعلان منفصلة عن عمولة سَوِّق.
+
+مثال:
+ميزانية إعلان $100 + عمولة 15% = إجمالي $115.
+
+طرق الدفع الموجودة حاليًا:
+- Binance Pay
+- USDT TRC20
+- Vodafone Cash / InstaPay مصر
+- Zain Cash / Orange Money الأردن
+
+مهم جدًا:
+لا تدّعي أبدًا أنك نشرت إعلانًا فعليًا أو شغلت حملة فعلية
+أو دفعت أموالًا أو تواصلت مع Meta أو Google أو TikTok
+أو أي منصة إعلانية، لأن هذه الوظائف تحتاج إلى ربط رسمي بالمنصات.
+
+إذا أعطاك العميل رابط منتج أو نشاط،
+استخدم المعلومات الموجودة في السؤال فقط
+ولا تخترع معلومات غير موجودة.
+
+إذا كانت المعلومات غير كافية،
+اطلب من العميل البيانات المهمة بدل التخمين.
+
+أجب بالعربية.
+
+أسلوب الإجابة:
+واضح.
+مباشر.
+عملي.
+احترافي.
+مناسب لصاحب مشروع يريد نتيجة فعلية.
+
+لا تستخدم إجابات عامة إذا كان بإمكانك تقديم خطوات
+أو اقتراحات محددة.
+
+سؤال العميل:
+
+${question}`
+
+})
+
+}
+);
+
+let data = null;
+
+try{
+
+data =
+await response.json();
+
+}catch(e){
+
+data = null;
+
+}
+
+const loading =
+document.getElementById(
+loadingId
+);
+
+if(loading){
+
+loading.remove();
+
+}
+
+if(
+response.ok &&
+data &&
+data.success
+){
+
+addAIMessage(
+data.reply ||
+"لم يصل رد من الذكاء الاصطناعي.",
+"ai"
+);
+
+}else{
+
+let errorMessage =
+"⚠️ تعذر الحصول على رد من الذكاء الاصطناعي حاليًا.";
+
+if(data && data.error){
+
+errorMessage +=
+"\n" +
+data.error;
+
+}
+
+addAIMessage(
+errorMessage,
+"ai"
+);
+
+}
+
+}catch(error){
+
+console.error(
+"SAWWIQ AI ERROR:",
+error
+);
+
+const loading =
+document.getElementById(
+loadingId
+);
+
+if(loading){
+
+loading.remove();
+
+}
+
+addAIMessage(
+
+"⚠️ حدث خطأ أثناء الاتصال بمساعد سَوِّق.\nحاول مرة أخرى بعد قليل.",
+
+"ai"
+
+);
+
+}
+
+}
+
+
+/* =========================
+محرك تحليل النشاط
+========================= */
+
+async function runBusinessAnalysis(){
+
+const name =
+document.getElementById(
+"analysisName"
+).value.trim();
+
+const field =
+document.getElementById(
+"analysisField"
+).value;
+
+const url =
+document.getElementById(
+"analysisUrl"
+).value.trim();
+
+const description =
+document.getElementById(
+"analysisDescription"
+).value.trim();
+
+const country =
+document.getElementById(
+"analysisCountry"
+).value;
+
+const budget =
+document.getElementById(
+"analysisBudget"
+).value;
+
+if(
+!name ||
+!field ||
+!description ||
+!country
+){
+
+alert(
+"الرجاء تعبئة اسم النشاط والمجال والوصف والدولة."
+);
+
+return;
+
+}
+
+const loading =
+document.getElementById(
+"analysisLoading"
+);
+
+const result =
+document.getElementById(
+"analysisResult"
+);
+
+const content =
+document.getElementById(
+"analysisResultContent"
+);
+
+loading.style.display =
+"block";
+
+result.style.display =
+"none";
+
+window.scrollTo({
+top:document.getElementById("analysis").offsetTop - 20,
+behavior:"smooth"
+});
+
+
+const prompt = `
+
+أنت محرك التحليل التسويقي الرسمي لمنصة
+سَوِّق SAWWIQ AI.
+
+مهمتك تقديم تحليل تسويقي عملي لصاحب النشاط.
+
+بيانات النشاط:
+
+اسم النشاط:
+${name}
+
+مجال النشاط:
+${field}
+
+رابط المنتج أو المتجر:
+${url || "غير موجود"}
+
+وصف المنتج أو الخدمة:
+${description}
+
+الدولة المستهدفة:
+${country}
+
+الميزانية المتوقعة:
+${budget ? "$" + budget : "غير محددة"}
+
+
+أريد منك إعداد تحليل تسويقي احترافي ومنظم
+بالأقسام التالية:
+
+1. ⭐ التقييم العام للنشاط من 10.
+
+2. 🏪 فهم النشاط والمنتج أو الخدمة.
+
+3. 🎯 الجمهور المستهدف:
+- العمر المتوقع
+- الاهتمامات
+- نوع العميل
+- دوافع الشراء
+- المشاكل التي يحاول المنتج حلها
+
+4. 💪 نقاط القوة.
+
+5. ⚠️ نقاط الضعف.
+
+6. 💡 الفرص التسويقية.
+
+7. 🚨 المخاطر أو المشاكل المحتملة.
+
+8. 🌍 أفضل الأسواق أو الدول المناسبة.
+
+9. 📱 أفضل منصات الإعلان لهذا النشاط.
+وضح لماذا تناسب كل منصة.
+
+10. 🧠 الاستراتيجية التسويقية المقترحة.
+
+11. 💰 اقتراح توزيع الميزانية.
+
+12. 📣 ثلاث أفكار إعلانية قوية.
+
+13. ✍️ ثلاثة عناوين إعلانية.
+
+14. 📝 نص إعلان جاهز للاستخدام.
+
+15. 🎬 فكرة فيديو إعلاني مناسبة للنشاط.
+
+16. 🎁 عرض تسويقي مقترح.
+
+17. 🚀 خطة عمل قصيرة للخطوة التالية.
+
+18. 🏆 أهم توصية من سَوِّق لصاحب النشاط.
+
+
+قواعد مهمة:
+
+- لا تخترع معلومات غير موجودة.
+- إذا كان الرابط موجودًا ولكن لا تستطيع الوصول إليه،
+  لا تدّعي أنك فتحته أو حللته.
+- لا تدعي أنك شغلت حملة فعلية.
+- لا تدعي أنك نشرت إعلانًا.
+- لا تدعي أنك دفعت أموالًا.
+- لا تدعي أنك تواصلت مع Meta أو Google أو TikTok.
+- التحليل استشاري في هذه المرحلة.
+- إذا كانت البيانات غير كافية، اذكر ذلك بوضوح.
+- استخدم لغة عربية واضحة ومباشرة.
+- لا تعطِ كلامًا عامًا بلا فائدة.
+- أعطِ توصيات قابلة للتنفيذ.
+- اجعل النتيجة سهلة القراءة.
+- استخدم العناوين والرموز لتنظيم النتيجة.
+
+`;
+
+try{
+
+const response =
+await fetch(
+"https://sawwiq-ai.onrender.com/api/ai",
+{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+message:prompt
+})
+
+}
+);
+
+let data = null;
+
+try{
+
+data =
+await response.json();
+
+}catch(e){
+
+data = null;
+
+}
+
+loading.style.display =
+"none";
+
+if(
+response.ok &&
+data &&
+data.success
+){
+
+content.textContent =
+data.reply ||
+"لم يصل تحليل من الذكاء الاصطناعي.";
+
+result.style.display =
+"block";
+
+}else{
+
+content.textContent =
+
+"⚠️ تعذر الحصول على التحليل حاليًا.\n\n" +
+
+(
+data && data.error
+? data.error
+: "حاول مرة أخرى بعد قليل."
+);
+
+result.style.display =
+"block";
+
+}
+
+window.scrollTo({
+top:result.offsetTop - 20,
+behavior:"smooth"
+});
+
+}catch(error){
+
+console.error(
+"SAWWIQ ANALYSIS ERROR:",
+error
+);
+
+loading.style.display =
+"none";
+
+content.textContent =
+"⚠️ حدث خطأ أثناء الاتصال بمحرك التحليل.\n\nحاول مرة أخرى بعد قليل.";
+
+result.style.display =
+"block";
+
+}
+
+}
+
+
+/* =========================
+تهيئة الموقع
+========================= */
+
+var INFO_PAGES=["privacy","terms","refund","about"];
+function openInfo(id){
+if(location.hash==="#"+id){navigate(id);}
+else{location.hash=id;}
+}
+function handleHash(){
+var h=(location.hash||"").replace("#","");
+if(INFO_PAGES.indexOf(h)!==-1){navigate(h);return;}
+if(h==="admin"){
+history.replaceState(null,"",location.pathname+location.search);
+openAdmin();
+}
+}
+function connectMetaPlaceholder(){
+if(!currentUser){openAuthModal();return;}
+var note=document.getElementById("metaNote");
+if(!note)return;
+note.style.display="block";
+note.textContent="ربط Meta قيد التجهيز وسيتوفر قريبًا. عند تفعيله ستسجّل الدخول من صفحة Meta الرسمية، ولن نطلب منك كلمة مرور Facebook.";
+}
+function initializeApp(){
+
+updateAuthUI();
+
+updateCampaignCost();
+
+renderDashboard();
+
+renderPaymentDetails();
+
+}
+
+
+/* =========================
+إغلاق النافذة عند الضغط خارجها
+========================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+const modal =
+document.getElementById(
+"authModal"
+);
+
+if(modal){
+
+modal.addEventListener(
+"click",
+function(e){
+
+if(e.target === modal){
+
+closeAuthModal();
+
+}
+
+}
+);
+
+}
+
+initializeApp();
+handleHash();
+window.addEventListener("hashchange",handleHash);
+}
+);
+</script>
+
 </body>
 </html>
